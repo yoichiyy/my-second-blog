@@ -1,9 +1,21 @@
 from django.urls import path
-from . import views
+from blog.views import AboutView
+from blog import views
+
+
 
 urlpatterns = [
-    path('', views.post_list, name='post_list'),
-    path('post/<int:pk>/', views.post_detail, name='post_detail'),
-    path('post/new', views.post_new, name='post_new'),
-    path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+    path('', views.PostListView.as_view() , name='post_list'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('post/<int:pk>', views.PostDetailView.as_view(), name='post_detail'),
+    path('post/new/', views.CreatePostView.as_view(), name='post_new'),
+    path('post/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post_edit'),
+    path('drafts/', views.DraftListView.as_view(), name='post_draft_list'),
+    path('post/<int:pk>/remove/', views.PostDeleteView.as_view(), name='post_remove'),
+    path('login/', views.Login.as_view(), name='login'),
+    path('logout/', views.Logout.as_view(), name='logout'),
+    path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
+    path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
+    path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
+    path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ]
